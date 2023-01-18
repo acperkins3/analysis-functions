@@ -33,48 +33,48 @@ PoliceConvergence <- function(model) {
 
 
 FitIIDModel <- function(data, Trait, StandCountP) {
-  if (!is.na(StandCountP) & length(unique(data$StandCount)) > 1) { #If there are stand counts
-    if (StandCountP > 0.05) { #If the effect of stand count is not significant
-      data$StandCount <- NA #Make the stand counts NA so they are not used in the model (for this use of the function)
-    }
-  }
-  StandCountTerm <- ifelse(!is.na(data[1, "StandCount"]), " + StandCount", "")
+  StandCountTerm <- case_when(
+    is.na(StandCountP) ~ "",
+    length(unique(data$StandCount)) <= 1 ~ "",
+    StandCountP >= 0.05 ~ "",
+    StandCountP < 0.05 ~ " + StandCount"
+  )
   SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~idv(units), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~idv(units), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
 
 FitAR1RowModel <- function(data, Trait, StandCountP) {
-  if (!is.na(StandCountP) & length(unique(data$StandCount)) > 1) { #If there are stand counts
-    if (StandCountP > 0.05) { #If the effect of stand count is not significant
-      data$StandCount <- NA #Make the stand counts NA so they are not used in the model (for this use of the function)
-    }
-  }
-  StandCountTerm <- ifelse(!is.na(data[1, "StandCount"]), " + StandCount", "")
+  StandCountTerm <- case_when(
+    is.na(StandCountP) ~ "",
+    length(unique(data$StandCount)) <= 1 ~ "",
+    StandCountP >= 0.05 ~ "",
+    StandCountP < 0.05 ~ " + StandCount"
+  )
   SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~ar1(Row):idv(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~ar1(Row):idv(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
 
 FitAR1ColModel <- function(data, Trait, StandCountP) {
-  if (!is.na(StandCountP) & length(unique(data$StandCount)) > 1) { #If there are stand counts
-    if (StandCountP > 0.05) { #If the effect of stand count is not significant
-      data$StandCount <- NA #Make the stand counts NA so they are not used in the model (for this use of the function)
-    }
-  }
-  StandCountTerm <- ifelse(!is.na(data[1, "StandCount"]), " + StandCount", "")
+  StandCountTerm <- case_when(
+    is.na(StandCountP) ~ "",
+    length(unique(data$StandCount)) <= 1 ~ "",
+    StandCountP >= 0.05 ~ "",
+    StandCountP < 0.05 ~ " + StandCount"
+  )
   SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~idv(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~idv(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
 
 FitAR1BothModel <- function(data, Trait, StandCountP) {
-  if (!is.na(StandCountP) & length(unique(data$StandCount)) > 1) { #If there are stand counts
-    if (StandCountP > 0.05) { #If the effect of stand count is not significant
-      data$StandCount <- NA #Make the stand counts NA so they are not used in the model (for this use of the function)
-    }
-  }
-  StandCountTerm <- ifelse(!is.na(data[1, "StandCount"]), " + StandCount", "")
+  StandCountTerm <- case_when(
+    is.na(StandCountP) ~ "",
+    length(unique(data$StandCount)) <= 1 ~ "",
+    StandCountP >= 0.05 ~ "",
+    StandCountP < 0.05 ~ " + StandCount"
+  )
   SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~ar1v(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~ar1v(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
