@@ -10,7 +10,6 @@ GetStandCountpValue <- function(data, Trait) {
   if (!is.na(data[1, "StandCount"])){
     SubblockTerm <- ifelse("GEMN SSD X LH244" %in% unique(data$Germplasm), " + Replicate:SubBlock", "")
     model <- eval(parse(text = paste0("asreml(fixed = ", Trait, " ~ Pedigree + StandCount, random = ~Replicate", SubblockTerm, ", residual = ~idv(units), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))
-    pval <- wald(model)
     return(wald(model)[3,4]) # Note: This indexing is dependent on the number of fixed effects
   }
   else {
