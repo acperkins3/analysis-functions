@@ -39,7 +39,7 @@ FitIIDModel <- function(data, Trait, StandCountP) {
     StandCountP >= 0.05 ~ "",
     StandCountP < 0.05 ~ " + StandCount"
   )
-  SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
+  SubblockTerm <- ifelse("GEMN SSD X LH244" %in% unique(data$Germplasm), " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~idv(units), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~idv(units), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
@@ -51,7 +51,7 @@ FitAR1RowModel <- function(data, Trait, StandCountP) {
     StandCountP >= 0.05 ~ "",
     StandCountP < 0.05 ~ " + StandCount"
   )
-  SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
+  SubblockTerm <- ifelse("GEMN SSD X LH244" %in% unique(data$Germplasm), " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~ar1(Row):idv(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~ar1(Row):idv(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
@@ -63,7 +63,7 @@ FitAR1ColModel <- function(data, Trait, StandCountP) {
     StandCountP >= 0.05 ~ "",
     StandCountP < 0.05 ~ " + StandCount"
   )
-  SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
+  SubblockTerm <- ifelse("GEMN SSD X LH244" %in% unique(data$Germplasm), " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~idv(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~idv(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
@@ -75,7 +75,7 @@ FitAR1BothModel <- function(data, Trait, StandCountP) {
     StandCountP >= 0.05 ~ "",
     StandCountP < 0.05 ~ " + StandCount"
   )
-  SubblockTerm <- ifelse(data[1, "Germplasm"] == "GEMN SSD X LH244", " + Replicate:SubBlock", "")
+  SubblockTerm <- ifelse("GEMN SSD X LH244" %in% unique(data$Germplasm), " + Replicate:SubBlock", "")
   model <- PoliceConvergence(list(fixed = eval(parse(text = paste("asreml(fixed =", Trait, "~ Pedigree", StandCountTerm, ", random = ~Replicate", SubblockTerm, ", residual = ~ar1v(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)"))),
                                   random = eval(parse(text = paste("asreml(fixed =", Trait, "~ 1",  StandCountTerm,", random = ~Pedigree + Replicate", SubblockTerm, ", residual = ~ar1v(Row):ar1(Col), na.action = na.method(x = 'include', y = 'include'), data = data, trace = FALSE)")))))
 }
