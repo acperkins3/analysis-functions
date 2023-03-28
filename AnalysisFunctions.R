@@ -208,7 +208,7 @@ GetSEDSafely <- safely(GetSED)
 
 GetCullisH2SED <- function(SED, GeneticVariance) {
   if (is.null(SED$result)) {
-    return(NULL)
+    return(NA)
   }
   else {
     SED <- as.numeric(SED$result)
